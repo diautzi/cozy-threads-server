@@ -83,6 +83,8 @@ router.post("/webhook", async (ctx) => {
   ctx.status = 200;
 });
 
+const port = process.env.PORT || 4242;
+
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(4242, () => console.log("Koa server running on port 4242!"));
+app.listen(port, () => console.log(`Koa server running on port ${port}!`));
