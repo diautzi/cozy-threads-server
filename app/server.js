@@ -17,10 +17,7 @@ app.use(cors({ origin: "*" }));
 app.use(bodyParser());
 
 const calculateOrderAmount = (items) => {
-  return items.reduce(
-    (total, item) => Math.round(total + item.price * item.quantity),
-    0
-  );
+  return items.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
 router.post("/config", async (ctx) => {
@@ -32,6 +29,9 @@ router.post("/config", async (ctx) => {
 router.post("/create-payment-intent", async (ctx) => {
   try {
     const { items } = ctx.request.body;
+    console.log("items", items);
+    const amount = calculateOrderAmount(items);
+    console.log("amount", amount);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(items) * 100, // Convert to cents
